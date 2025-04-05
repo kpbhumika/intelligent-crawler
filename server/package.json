@@ -1,0 +1,45 @@
+{
+  "name": "flash-wiz-server",
+  "version": "1.0.0",
+  "description": "Flash wiz server",
+  "main": "app.js",
+  "scripts": {
+    "test": "test",
+    "start": "npx nodemon src/app.js",
+    "format": "prettier --write .",
+    "check": "prettier --check .",
+    "migrate:latest": "knex --knexfile ./knexfile.cjs migrate:latest",
+    "migrate:make": "knex --knexfile ./knexfile.cjs migrate:make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpbhumika/flashWiz.git"
+  },
+  "keywords": [
+    "flashWiz"
+  ],
+  "author": "Bhumika KP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kpbhumika/flashWiz/issues"
+  },
+  "homepage": "https://github.com/kpbhumika/flashWiz#readme",
+  "dependencies": {
+    "connect-ensure-login": "^0.1.1",
+    "connect-pg-simple": "<10.0.0",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-session": "^1.18.1",
+    "knex": "^3.1.0",
+    "objection": "^3.1.5",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3"
+  }
+}

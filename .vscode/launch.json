@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Server",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/server/src/app.js",
+            "envFile": "${workspaceFolder}/server/.env"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Server With Hot Reload",
+            "cwd": "${workspaceFolder}/server",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/server/src/app.js",
+            "runtimeExecutable": "nodemon",
+            "restart": true,
+            "envFile": "${workspaceFolder}/server/.env",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Client With Hot Reload",
+            "cwd": "${workspaceFolder}/client",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "start",
+            "runtimeExecutable": "react-scripts",
+            "restart": true,
+            "console": "integratedTerminal"
+        }
+    ]
+}

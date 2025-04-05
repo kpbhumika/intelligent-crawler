@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+    "scripts": {
+        "format": "npm run format --prefix ./server && npm run format --prefix ./client",
+        "start": "yarn workspace flash-wiz-server start"
+    }
+}
