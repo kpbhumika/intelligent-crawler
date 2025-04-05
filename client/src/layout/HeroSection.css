@@ -1,0 +1,92 @@
+/* Hero Section Styles */
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    #e3f2fd,
+    #ffe1ff
+  ); /* Light background gradient */
+  padding: 50px 20px;
+  height: 100vh;
+  color: #333;
+}
+
+.hero-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  flex-wrap: wrap; /* Allows content to wrap in case of overflow */
+}
+
+.hero-text {
+  flex: 1;
+  padding: 20px;
+  /* Removed margin-top: -50px; */
+}
+
+.hero-heading {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.hero-subheading {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+/* .cta-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .cta-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #45a049;
+  }
+  
+  .cta-button.secondary {
+    background-color: #2196f3;
+  }
+  
+  .cta-button.secondary:hover {
+    background-color: #1e88e5;
+  } */
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* navbar */
+.navbar-nav .nav-link {
+  color: white !important; /* Make sure this overrides other styles */
+}

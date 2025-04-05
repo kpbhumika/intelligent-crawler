@@ -1,6 +1,4 @@
-import { LoginSection } from "./LoginSection";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import "../HeroSection.css";
 import React from "react";
 
 const Navigation = () => {
@@ -15,10 +13,7 @@ const Navigation = () => {
           <Navbar.Collapse id="navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/decks">My Decks</Nav.Link>
-              <Nav.Link href="/deck/add">Create Deck</Nav.Link>
-              <Nav.Link href="/decks/public/category">Study</Nav.Link>
             </Nav>
-            <LoginSection />
           </Navbar.Collapse>
         </Container>
       </Navbar>
