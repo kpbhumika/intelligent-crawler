@@ -9,7 +9,7 @@ const Navigation = () => {
       <Navbar expand="lg" style={{ backgroundColor: "#433878" }}>
         <Container fluid>
           <Navbar.Brand href="/" style={{ color: "white" }}>
-            FlashWiz
+            intelligent-crawler
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">

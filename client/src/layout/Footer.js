@@ -11,7 +11,7 @@ const Footer = () => {
               <use xlinkHref="#bootstrap" />
             </svg>
           </a>
-          <span className="text-muted">© 2024 Flashwiz Inc</span>
+          <span className="text-muted">© 2024 intelligent-crawler Inc</span>
         </div>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
           <li className="ms-3">

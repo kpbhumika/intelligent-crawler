@@ -19,7 +19,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:9000",
-  "https://flashwiz-3b670dc3d6b4.herokuapp.com",
+  "https://intelligent-crawler-3b670dc3d6b4.herokuapp.com",
 ];
 app.use(
   cors({

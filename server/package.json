@@ -1,7 +1,7 @@
 {
-  "name": "flash-wiz-server",
+  "name": "intelligent-crawler-server",
   "version": "1.0.0",
-  "description": "Flash wiz server",
+  "description": "Intelligent crawler server",
   "main": "app.js",
   "scripts": {
     "test": "test",
@@ -13,17 +13,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kpbhumika/flashWiz.git"
+    "url": "git+https://github.com/kpbhumika/intelligent-crawler.git"
   },
   "keywords": [
-    "flashWiz"
+    "intelligent-crawler"
   ],
   "author": "Bhumika KP",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kpbhumika/flashWiz/issues"
+    "url": "https://github.com/kpbhumika/intelligent-crawler/issues"
   },
-  "homepage": "https://github.com/kpbhumika/flashWiz#readme",
+  "homepage": "https://github.com/kpbhumika/intelligent-crawler#readme",
   "dependencies": {
     "connect-ensure-login": "^0.1.1",
     "connect-pg-simple": "<10.0.0",

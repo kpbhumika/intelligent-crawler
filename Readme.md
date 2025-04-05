@@ -1,6 +1,6 @@
-# Flash Wiz
+# Intelligent crawler
 
-Flash Wiz is a full-stack flashcard application built using the **PERN** stack (PostgreSQL, Express, React, Node.js). This README provides instructions on how to set up and run the app locally.
+Intelligent crawler is a full-stack flashcard application built using the **PERN** stack (PostgreSQL, Express, React, Node.js). This README provides instructions on how to set up and run the app locally.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -26,8 +26,8 @@ Make sure you have the following software installed:
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone https://github.com/kpbhumika/flashWiz.git
-cd flashWiz
+git clone https://github.com/kpbhumika/intelligent-crawler.git
+cd intelligent-crawler
 ```
 
 ### 2. Server Setup
@@ -89,7 +89,7 @@ Once setup is complete, you can start both the server and client applications.
 
 ## Tutorial Reference
 
-This application was set up following the tutorial [“Get Started with the PERN Stack”](https://medium.com/@ritapalves/get-started-with-the-pern-stack-an-introduction-and-implementation-guide-e33c55d09994) by Rita Palves. The tutorial provides a comprehensive guide to building a full-stack application with the PERN stack and was used as a reference to structure both the backend and frontend of Flash Wiz.
+This application was set up following the tutorial [“Get Started with the PERN Stack”](https://medium.com/@ritapalves/get-started-with-the-pern-stack-an-introduction-and-implementation-guide-e33c55d09994) by Rita Palves. The tutorial provides a comprehensive guide to building a full-stack application with the PERN stack and was used as a reference to structure both the backend and frontend of Intelligent crawler.
 
 ## Technologies Used
 
@@ -109,5 +109,5 @@ Biuld frontend changes:
 
 ## Repository Links
 
-- **[GitHub Repository](https://github.com/kpbhumika/flashWiz)**
-- **[Issues](https://github.com/kpbhumika/flashWiz/issues)**
+- **[GitHub Repository](https://github.com/kpbhumika/intelligent-crawler)**
+- **[Issues](https://github.com/kpbhumika/intelligent-crawler/issues)**

@@ -7,6 +7,6 @@
   ],
     "scripts": {
         "format": "npm run format --prefix ./server && npm run format --prefix ./client",
-        "start": "yarn workspace flash-wiz-server start"
+        "start": "yarn workspace intelligent-crawler-server start"
     }
 }
