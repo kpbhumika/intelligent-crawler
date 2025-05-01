@@ -1,105 +1,60 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 
-async function crawlSite({ startUrl, searchCriteria, fileType, timeout = 20000 }) {
+async function crawlSite({ startUrl, searchCriteria, fileType }) {
   const visited = new Set();
-  const foundFiles = new Set();
-  const baseDomain = new URL(startUrl).hostname;
+  const foundFiles = [];
 
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
 
-  const MAX_PAGES = 50;
-  let pageCount = 0;
-
   async function visitPage(url) {
-    if (visited.has(url) || pageCount >= MAX_PAGES) return;
+    if (visited.has(url)) return;
     visited.add(url);
-    pageCount++;
-
-    console.log(`Visiting: ${url}`);
 
     const page = await context.newPage();
-    try {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-      const links = await page.$$eval('a', as =>
-        as.map(a => a.href).filter(href => !!href)
-      );
+    // Extract all links on the page
+    const links = await page.$$eval('a', anchors =>
+      anchors.map(a => a.href).filter(href => !!href)
+    );
 
-      console.log(`Extracted links from ${url}:`, links);
+    console.log(`Found ${links.length} links on ${url}`);
 
-      for (let link of links) {
-        // Resolve relative URLs to absolute URLs
-        try {
-          link = new URL(link, url).href;
-        } catch (err) {
-          console.warn(`Invalid URL skipped: ${link}`);
-          continue;
-        }
-
-        if (visited.has(link)) continue;
-
-        let isSameDomain = false;
-        let isPDF = false;
-        let matchesSearch = false;
-
-        try {
-          const parsedLink = new URL(link);
-          isSameDomain = parsedLink.hostname.endsWith(baseDomain);
-          isPDF = parsedLink.pathname.toLowerCase().endsWith(fileType.toLowerCase());
-          matchesSearch = parsedLink.pathname.toLowerCase().includes(searchCriteria.toLowerCase());
-        } catch (err) {
-          console.warn(`Invalid URL skipped: ${link}`);
-          continue;
-        }
-
-        if (isPDF && matchesSearch) {
-          if (!foundFiles.has(link)) {
-            console.log(`Found file: ${link}`);
-            foundFiles.add(link);
-          }
-        } else if (isSameDomain && !link.includes('#')) {
-          await visitPage(link);
+    for (let link of links) {
+      // Check if the link matches the search criteria and file type
+      if (
+        link.includes(searchCriteria) &&  // Search for the criteria in the URL
+        link.toLowerCase().endsWith(fileType)  // Match the desired file type
+      ) {
+        if (!foundFiles.includes(link)) {
+          foundFiles.push(link);
+          console.log(`Found file: ${link}`);
         }
       }
-    } catch (err) {
-      console.warn(`Skipped ${url} — ${err.message}`);
-    } finally {
-      await page.close();
+
+      // If the link is a direct file (e.g., CSV), skip the page navigation
+      const isFileLink = link.toLowerCase().endsWith(fileType);
+      if (isFileLink) {
+        // Skip adding to visited and don't navigate further
+        continue;
+      }
+
+      // Recursively crawl linked pages within the same domain
+      if (link.includes(startUrl) && !visited.has(link)) {
+        await visitPage(link);
+      }
     }
+
+    await page.close();
   }
 
   await visitPage(startUrl);
 
-  const downloadsDir = path.resolve(__dirname, '../../downloads');
-  if (!fs.existsSync(downloadsDir)) fs.mkdirSync(downloadsDir, { recursive: true });
-
-  for (let fileUrl of foundFiles) {
-    try {
-      const fileName = path.basename(fileUrl.split('?')[0]).replace(/[^a-zA-Z0-9_\-.]/g, '_');
-      const filePath = path.join(downloadsDir, fileName);
-      const response = await axios.get(fileUrl, { responseType: 'stream' });
-
-      const writer = fs.createWriteStream(filePath);
-      response.data.pipe(writer);
-
-      await new Promise((resolve, reject) => {
-        writer.on('finish', resolve);
-        writer.on('error', reject);
-      });
-
-      console.log(`Downloaded: ${fileName}`);
-    } catch (err) {
-      console.error(`Download failed: ${fileUrl} — ${err.message}`);
-    }
-  }
-
-  console.log(`Crawling completed. Found files:`, Array.from(foundFiles));
   await browser.close();
-  return Array.from(foundFiles);
+  return foundFiles;
 }
 
 module.exports = { crawlSite };
