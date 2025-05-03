@@ -19,6 +19,9 @@ function App() {
         searchCriteria: criteria,
         fileType,
       });
+
+      console.log('Crawl Response:', res.data);  // Log the response for debugging
+
       setResults(res.data.files);
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong');

@@ -5,8 +5,11 @@
     "server",
     "client"
   ],
-    "scripts": {
-        "format": "npm run format --prefix ./server && npm run format --prefix ./client",
-        "start": "yarn workspace intelligent-crawler-server start"
-    }
+  "scripts": {
+    "format": "npm run format --prefix ./server && npm run format --prefix ./client",
+    "start": "yarn workspace intelligent-crawler-server start"
+  },
+  "dependencies": {
+    "node-html-parser": "^7.0.1"
+  }
 }

@@ -26,7 +26,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-  })
+  }),
 ); // Enable CORS for the allowed origins
 
 // Step 2: Middleware for JSON body parsing
