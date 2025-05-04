@@ -33,7 +33,7 @@ app.use(
 app.use(bodyParser.json()); // Parse JSON bodies
 
 // Step 3: API Route for the Web Crawler
-app.use("/crawl", crawlRoute); // Mount the /crawl route from routes/crawl.js
+app.use("/api", crawlRoute); // Mount the /crawl route from routes/crawl.js
 
 // Step 4: Start the server
 const PORT = process.env.PORT || 9000;

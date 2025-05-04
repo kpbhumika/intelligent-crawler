@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { crawlSite } = require("../config/crawler");
 
+const crawlRouter = express.Router();
+crawlRouter.use("/crawl", router);
+
 router.post("/", async (req, res) => {
   const { startUrl, criteriaType, searchCriteria, fileType } = req.body;
 
@@ -14,4 +17,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = crawlRouter;

@@ -17,7 +17,7 @@ function App() {
     // const host = "http://localhost:9000";
     const host = window.location.origin;
     try {
-      const res = await axios.post(`${host}/crawl`, {
+      const res = await axios.post(`/api/crawl`, {
         startUrl,
         criteriaType,
         searchCriteria: criteria,
