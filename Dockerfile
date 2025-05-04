@@ -10,8 +10,10 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies using yarn
-RUN yarn
-RUN yarn workspace intelligent-crawler-server postinstall
+RUN yarn &&  yarn workspace intelligent-crawler-server postinstall
+RUN yarn workspace intelligent-crawler-client build
+
+ENV DANGEROUSLY_DISABLE_HOST_CHECK = true
 
 # Expose the port the app runs on (adjust as needed)
 EXPOSE 3000
