@@ -36,7 +36,8 @@ app.use(bodyParser.json()); // Parse JSON bodies
 app.use("/api", crawlRoute); // Mount the /crawl route from routes/crawl.js
 
 // Step 4: Start the server
-const PORT = process.env.PORT || 9000;
+// const PORT = process.env.PORT || 9000;
+const PORT = 9000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
