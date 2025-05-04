@@ -38,47 +38,56 @@ function App() {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">🕷 Intelligent Web Crawler</h1>
+    <div className="container py-4">
+      <h1 className="display-4 text-center mb-4">🕷 Intelligent Web Crawler</h1>
 
-      <CrawlForm
-        loading={loading}
-        setStartUrl={setStartUrl}
-        setCriteriaType={setCriteriaType}
-        setCriteria={setCriteria}
-        setFileType={setFileType}
-        startUrl={startUrl}
-        criteriaType={criteriaType}
-        criteria={criteria}
-        fileType={fileType}
-        handleCrawl={handleCrawl}
-      />
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <CrawlForm
+            loading={loading}
+            setStartUrl={setStartUrl}
+            setCriteriaType={setCriteriaType}
+            setCriteria={setCriteria}
+            setFileType={setFileType}
+            startUrl={startUrl}
+            criteriaType={criteriaType}
+            criteria={criteria}
+            fileType={fileType}
+            handleCrawl={handleCrawl}
+          />
 
-      {error && <p className="text-red-500 mt-4">{error}</p>}
-
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">📄 Found Files:</h2>
-        <ul className="list-disc list-inside space-y-1">
-          {results ? (
-            results.map((url, idx) => (
-              <li key={idx}>
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  {url}
-                </a>
-              </li>
-            ))
-          ) : (
-            <p className="text-gray-500">No files found yet.</p>
+          {error && (
+            <div className="alert alert-danger mt-4" role="alert">
+              {error}
+            </div>
           )}
-          <li>
+
+          <div className="mt-5">
+            <h2 className="h5 mb-3">📄 Found Files:</h2>
+            {results.length > 0 ? (
+              <ul className="list-group">
+                {results.map((url, idx) => (
+                  <li key={idx} className="list-group-item">
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-decoration-none text-primary"
+                    >
+                      {url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted">No files found yet.</p>
+            )}
+          </div>
+
+          <div className="mt-5">
             <LogDisplayer />
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

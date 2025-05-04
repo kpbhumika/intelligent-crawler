@@ -33,7 +33,7 @@ const LogDisplayer = () => {
   }, []);
 
   return (
-    <div className="log-displayer container mt-4">
+    <div className="log-displayer mt-4">
       <h2 className="mb-3">Log Output</h2>
       <Button
         variant="primary"

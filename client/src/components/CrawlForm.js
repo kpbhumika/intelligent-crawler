@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Form, Button, Spinner } from "react-bootstrap";
 
 const CrawlForm = ({
   loading,
@@ -13,60 +14,72 @@ const CrawlForm = ({
   handleCrawl,
 }) => {
   return (
-    <>
-      <label className="block mb-2">
-        Start URL:
-        <input
+    <Form>
+      <Form.Group className="mb-3" controlId="formStartUrl">
+        <Form.Label>Start URL</Form.Label>
+        <Form.Control
           type="text"
-          className="w-full p-2 border mt-1"
+          placeholder="Enter start URL"
           value={startUrl}
           onChange={(e) => setStartUrl(e.target.value)}
         />
-      </label>
+      </Form.Group>
 
-      <label className="block mb-2">
-        Criteria Type:
-        <select
-          className="w-full p-2 border mt-1"
+      <Form.Group className="mb-3" controlId="formCriteriaType">
+        <Form.Label>Criteria Type</Form.Label>
+        <Form.Select
           value={criteriaType}
           onChange={(e) => setCriteriaType(e.target.value)}
         >
           <option value="keyword">Keyword</option>
           <option value="regex">Regex</option>
-        </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
 
-      <label className="block mb-2">
-        Search Criteria:
-        <input
+      <Form.Group className="mb-3" controlId="formCriteria">
+        <Form.Label>Search Criteria</Form.Label>
+        <Form.Control
           type="text"
-          className="w-full p-2 border mt-1"
+          placeholder="Enter search criteria"
           value={criteria}
           onChange={(e) => setCriteria(e.target.value)}
         />
-      </label>
+      </Form.Group>
 
-      <label className="block mb-2">
-        File Type:
-        <select
-          className="w-full p-2 border mt-1"
+      <Form.Group className="mb-3" controlId="formFileType">
+        <Form.Label>File Type</Form.Label>
+        <Form.Select
           value={fileType}
           onChange={(e) => setFileType(e.target.value)}
         >
           <option value=".pdf">.PDF</option>
           <option value=".csv">.CSV</option>
           <option value=".fastq">.FASTQ</option>
-        </select>
-      </label>
+        </Form.Select>
+      </Form.Group>
 
-      <button
+      <Button
+        variant="primary"
         onClick={handleCrawl}
-        className="bg-blue-600 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700"
         disabled={loading}
+        className="mt-3"
       >
-        {loading ? "Crawling..." : "Start Crawl"}
-      </button>
-    </>
+        {loading ? (
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />{" "}
+            Crawling...
+          </>
+        ) : (
+          "Start Crawl"
+        )}
+      </Button>
+    </Form>
   );
 };
 

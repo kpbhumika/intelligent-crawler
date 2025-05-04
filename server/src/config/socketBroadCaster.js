@@ -7,7 +7,6 @@ const initializeSocket = (app) => {
   let server = http.createServer(app);
   io = new Server(server);
 
-
   // On client connection
   io.on("connection", (socket) => {
     console.log("Client connected:", socket.id);
@@ -35,4 +34,4 @@ const broadcastLog = (message) => {
 module.exports = {
   broadcastLog,
   initializeSocket,
-}
+};
