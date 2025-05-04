@@ -3,6 +3,11 @@ const fs = require("fs");
 const path = require("path");
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
+// Timeout for page navigation loaded from env variable
+const PAGE_LOAD_TIMEOUT = process.env.PAGE_LOAD_TIMEOUT
+  ? parseInt(process.env.PAGE_LOAD_TIMEOUT)
+  : 3000; // Default to 3 seconds
+
 // Map common extensions to their MIME types
 const mimeTypes = {
   ".pdf": ["application/pdf"],
@@ -228,7 +233,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
       try {
         await page.goto(currentUrl, {
           waitUntil: "domcontentloaded",
-          timeout: 3000,
+          timeout: PAGE_LOAD_TIMEOUT,
         });
       } catch (err) {
         console.log("Error navigating to URL:", currentUrl, err);
