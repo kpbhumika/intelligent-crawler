@@ -12,6 +12,7 @@ COPY . .
 # Install dependencies using yarn
 RUN yarn &&  yarn workspace intelligent-crawler-server postinstall
 RUN yarn workspace intelligent-crawler-client build
+RUN yarn global add serve
 
 ENV DANGEROUSLY_DISABLE_HOST_CHECK = true
 
@@ -19,4 +20,4 @@ ENV DANGEROUSLY_DISABLE_HOST_CHECK = true
 EXPOSE 3000
 
 # Define the command to run the application
-CMD ["yarn", "start"]
+CMD ["yarn", "serve"]

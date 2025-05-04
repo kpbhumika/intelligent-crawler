@@ -15,7 +15,7 @@ function App() {
     setResults([]);
     setError("");
     try {
-      const res = await axios.post(`/api/crawl`, {
+      const res = await axios.post(`http://localhost:9000/api/crawl`, {
         startUrl,
         criteriaType,
         searchCriteria: criteria,
@@ -94,7 +94,7 @@ function App() {
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">📄 Found Files:</h2>
         <ul className="list-disc list-inside space-y-1">
-          {results.map((url, idx) => (
+          {results ? (results.map((url, idx) => (
             <li key={idx}>
               <a
                 href={url}
@@ -105,8 +105,7 @@ function App() {
                 {url}
               </a>
             </li>
-          ))}
-          {!results.length && !loading && (
+          ))): (
             <p className="text-gray-500">No files found yet.</p>
           )}
         </ul>
