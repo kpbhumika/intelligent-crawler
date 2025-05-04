@@ -1,8 +1,10 @@
 import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
+import { Button, Collapse, Card } from "react-bootstrap";
 
 const LogDisplayer = () => {
   const [logs, setLogs] = useState([]);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     // Step 1: Connect to the socket server. Same URL as client
@@ -28,18 +30,48 @@ const LogDisplayer = () => {
     return () => {
       newSocket.disconnect();
     };
-  }, [io]);
+  }, []);
 
   return (
-    <div className="log-displayer">
-      <h2>Log Output</h2>
-      <div className="log-messages">
-        {logs.map((log, index) => (
-          <div key={index} className="log-message">
-            {log}
-          </div>
-        ))}
-      </div>
+    <div className="log-displayer container mt-4">
+      <h2 className="mb-3">Log Output</h2>
+      <Button
+        variant="primary"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        aria-controls="log-collapse"
+        aria-expanded={!isCollapsed}
+        className="mb-3"
+      >
+        {isCollapsed ? "Show Logs" : "Hide Logs"}
+      </Button>
+      <Collapse in={!isCollapsed}>
+        <Card id="log-collapse" className="border">
+          <Card.Body
+            style={{
+              maxHeight: "400px",
+              overflowY: "auto",
+              backgroundColor: "#f8f9fa",
+            }}
+          >
+            {logs.length > 0 ? (
+              logs.map((log, index) => (
+                <div
+                  key={index}
+                  className="log-message p-2 mb-2 rounded"
+                  style={{
+                    backgroundColor: "#e9ecef",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  {log}
+                </div>
+              ))
+            ) : (
+              <div className="text-muted">No logs available</div>
+            )}
+          </Card.Body>
+        </Card>
+      </Collapse>
     </div>
   );
 };

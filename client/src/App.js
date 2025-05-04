@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LogDisplayer from "./components/LogDisplayer";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [startUrl, setStartUrl] = useState("");
