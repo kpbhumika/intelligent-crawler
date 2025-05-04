@@ -1,5 +1,5 @@
 {
-  "name": "intelligent-crawler",
+  "name": "intelligent-crawler-client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:9000",

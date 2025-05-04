@@ -7,9 +7,10 @@
   ],
   "scripts": {
     "format": "npm run format --prefix ./server && npm run format --prefix ./client",
-    "start": "yarn workspace intelligent-crawler-server start"
+    "start": "concurrently \"yarn workspace intelligent-crawler-client start\" \"yarn workspace intelligent-crawler-server start\""
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
     "node-html-parser": "^7.0.1"
   }
 }
