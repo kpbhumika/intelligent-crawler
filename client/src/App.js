@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import LogDisplayer from "./components/LogDisplayer";
 
 function App() {
   const [startUrl, setStartUrl] = useState("");
@@ -110,6 +111,9 @@ function App() {
           ) : (
             <p className="text-gray-500">No files found yet.</p>
           )}
+          <li>
+            <LogDisplayer />
+          </li>
         </ul>
       </div>
     </div>

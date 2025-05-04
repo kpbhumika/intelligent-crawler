@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -6,6 +7,7 @@ const bodyParser = require("body-parser");
 // Import the web crawler route
 const crawlRoute = require("./routes/crawl");
 const frontendRouter = require("./routes/frontendRouter");
+const { initializeSocket } = require("./config/socketBroadCaster"); // Import the socket broadcaster
 
 const app = express();
 
@@ -41,9 +43,15 @@ app.use("/api", crawlRoute); // Mount the /crawl route from routes/crawl.js
 // Step 3.1: Serve static files from the React app
 app.use("/", frontendRouter); // Serve static files from the React app
 
+// Step 4: Adding a sockets.io server
+const server = initializeSocket(app); // Initialize the socket server
+
 // Step 4: Start the server
 // const PORT = process.env.PORT || 9000;
 const PORT = 9000;
-app.listen(PORT, () => {
+
+server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+

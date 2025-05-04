@@ -1,6 +1,8 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
+const { broadcastLog } = require("./socketBroadCaster.js");
+
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
 // Timeout for page navigation loaded from env variable
@@ -212,6 +214,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
         break;
       }
       const currentUrl = queue.shift();
+      broadcastLog(`Crawling - ${currentUrl}`);
 
       const isDesiredFile = await checkIsDesiredFile(
         currentUrl,
