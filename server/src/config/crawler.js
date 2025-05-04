@@ -6,9 +6,12 @@ const { broadcastLog } = require("./socketBroadCaster.js");
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
 // Timeout for page navigation loaded from env variable
-const PAGE_LOAD_TIMEOUT = process.env.PAGE_LOAD_TIMEOUT
-  ? parseInt(process.env.PAGE_LOAD_TIMEOUT)
-  : 10000;
+// const PAGE_LOAD_TIMEOUT = process.env.PAGE_LOAD_TIMEOUT
+//   ? parseInt(process.env.PAGE_LOAD_TIMEOUT)
+//   : 60000;
+
+const PAGE_LOAD_TIMEOUT = 60000;
+
 
 // Map common extensions to their MIME types
 const mimeTypes = {
