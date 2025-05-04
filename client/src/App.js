@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function App() {
   const [startUrl, setStartUrl] = useState('');
+  const [criteriaType, setCriteriaType] = useState('keyword');
   const [criteria, setCriteria] = useState('');
   const [fileType, setFileType] = useState('.pdf');
   const [loading, setLoading] = useState(false);
@@ -13,9 +14,12 @@ function App() {
     setLoading(true);
     setResults([]);
     setError('');
+    // const host = "http://localhost:9000";
+    const host = window.location.origin;
     try {
-      const res = await axios.post('http://localhost:9000/crawl', {
+      const res = await axios.post(`${host}/crawl`, {
         startUrl,
+        criteriaType,
         searchCriteria: criteria,
         fileType,
       });
@@ -45,7 +49,19 @@ function App() {
       </label>
 
       <label className="block mb-2">
-        Search Criteria (Keyword or Regex):
+        Criteria Type:
+        <select
+          className="w-full p-2 border mt-1"
+          value={criteriaType}
+          onChange={e => setCriteriaType(e.target.value)}
+        >
+          <option value="keyword">Keyword</option>
+          <option value="regex">Regex</option>
+        </select>
+      </label>
+
+      <label className="block mb-2">
+        Search Criteria:
         <input
           type="text"
           className="w-full p-2 border mt-1"

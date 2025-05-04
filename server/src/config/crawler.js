@@ -15,7 +15,7 @@ const mimeTypes = {
   ],
 };
 
-async function crawlSite({ startUrl, searchCriteria, fileType }) {
+async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
   const visited = new Set();
   const foundFiles = [];
   const browser = await chromium.launch({ headless: true });
@@ -108,16 +108,29 @@ async function crawlSite({ startUrl, searchCriteria, fileType }) {
   };
 
   // Helper: check if a URL response is the desired file type
-  async function checkIsDesiredFile(url, searchFileName, searchFileExtension) {
+  async function checkIsDesiredFile(url, criteriaType, searchCriteria, searchFileExtension) {
     const { fileName, fileExtension } = await getFileDetails(url);
     if (!fileName || !fileExtension) {
       console.log(`File details not found for URL: ${url}`);
       return false;
     }
 
-    const isFileNameMatch = searchFileName
-      ? fileName && fileName.includes(searchFileName)
-      : true;
+    let isFileNameMatch = true;
+
+    if (searchCriteria) {
+      if (criteriaType === "regex") {
+        try {
+          const regex = new RegExp(searchCriteria, "i");
+          isFileNameMatch = regex.test(fileName) || regex.test(url);
+        } catch (err) {
+          console.warn(`Invalid regex: ${searchCriteria}`, err);
+          isFileNameMatch = false;
+        }
+      } else {
+        isFileNameMatch = fileName.includes(searchCriteria) || url.includes(searchCriteria);
+      }
+    }
+
     const isFileExtensionMatch = searchFileExtension
       ? fileExtension && fileExtension.includes(searchFileExtension)
       : true;
@@ -177,7 +190,7 @@ async function crawlSite({ startUrl, searchCriteria, fileType }) {
     const queue = [startUrl];
     // visited.add(startUrl);
 
-    while (queue.length > 0 ) {
+    while (queue.length > 0) {
       if (visited.size >= MAX_LINKS_TO_CRAWL) {
         console.log("Reached maximum number of links to crawl.");
         break;
@@ -186,8 +199,10 @@ async function crawlSite({ startUrl, searchCriteria, fileType }) {
 
       const isDesiredFile = await checkIsDesiredFile(
         currentUrl,
+        criteriaType,
         searchCriteria,
-        fileType,
+        fileType
+
       );
       if (isDesiredFile) {
         if (!foundFiles.includes(currentUrl)) {

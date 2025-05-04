@@ -3,10 +3,10 @@ const router = express.Router();
 const { crawlSite } = require("../config/crawler");
 
 router.post("/", async (req, res) => {
-  const { startUrl, searchCriteria, fileType } = req.body;
+  const { startUrl, criteriaType, searchCriteria, fileType } = req.body;
 
   try {
-    const files = await crawlSite({ startUrl, searchCriteria, fileType });
+    const files = await crawlSite({ startUrl, criteriaType, searchCriteria, fileType });
     res.json({ success: true, files });
   } catch (error) {
     console.error("Crawler error:", error);
