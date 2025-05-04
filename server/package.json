@@ -9,7 +9,8 @@
     "format": "prettier --write .",
     "check": "prettier --check .",
     "migrate:latest": "knex --knexfile ./knexfile.cjs migrate:latest",
-    "migrate:make": "knex --knexfile ./knexfile.cjs migrate:make"
+    "migrate:make": "knex --knexfile ./knexfile.cjs migrate:make",
+    "postinstall": "yarn playwright install"
   },
   "repository": {
     "type": "git",
