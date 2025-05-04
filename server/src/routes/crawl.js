@@ -9,7 +9,12 @@ router.post("/", async (req, res) => {
   const { startUrl, criteriaType, searchCriteria, fileType } = req.body;
 
   try {
-    const files = await crawlSite({ startUrl, criteriaType, searchCriteria, fileType });
+    const files = await crawlSite({
+      startUrl,
+      criteriaType,
+      searchCriteria,
+      fileType,
+    });
     res.json({ success: true, files });
   } catch (error) {
     console.error("Crawler error:", error);

@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
-  const [startUrl, setStartUrl] = useState('');
-  const [criteriaType, setCriteriaType] = useState('keyword');
-  const [criteria, setCriteria] = useState('');
-  const [fileType, setFileType] = useState('.pdf');
+  const [startUrl, setStartUrl] = useState("");
+  const [criteriaType, setCriteriaType] = useState("keyword");
+  const [criteria, setCriteria] = useState("");
+  const [fileType, setFileType] = useState(".pdf");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleCrawl = async () => {
     setLoading(true);
     setResults([]);
-    setError('');
-    // const host = "http://localhost:9000";
-    const host = window.location.origin;
+    setError("");
     try {
       const res = await axios.post(`/api/crawl`, {
         startUrl,
@@ -24,11 +22,11 @@ function App() {
         fileType,
       });
 
-      console.log('Crawl Response:', res.data);  // Log the response for debugging
+      console.log("Crawl Response:", res.data); // Log the response for debugging
 
       setResults(res.data.files);
     } catch (err) {
-      setError(err.response?.data?.error || 'Something went wrong');
+      setError(err.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -44,7 +42,7 @@ function App() {
           type="text"
           className="w-full p-2 border mt-1"
           value={startUrl}
-          onChange={e => setStartUrl(e.target.value)}
+          onChange={(e) => setStartUrl(e.target.value)}
         />
       </label>
 
@@ -53,7 +51,7 @@ function App() {
         <select
           className="w-full p-2 border mt-1"
           value={criteriaType}
-          onChange={e => setCriteriaType(e.target.value)}
+          onChange={(e) => setCriteriaType(e.target.value)}
         >
           <option value="keyword">Keyword</option>
           <option value="regex">Regex</option>
@@ -66,7 +64,7 @@ function App() {
           type="text"
           className="w-full p-2 border mt-1"
           value={criteria}
-          onChange={e => setCriteria(e.target.value)}
+          onChange={(e) => setCriteria(e.target.value)}
         />
       </label>
 
@@ -75,7 +73,7 @@ function App() {
         <select
           className="w-full p-2 border mt-1"
           value={fileType}
-          onChange={e => setFileType(e.target.value)}
+          onChange={(e) => setFileType(e.target.value)}
         >
           <option value=".pdf">.PDF</option>
           <option value=".csv">.CSV</option>
@@ -88,7 +86,7 @@ function App() {
         className="bg-blue-600 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700"
         disabled={loading}
       >
-        {loading ? 'Crawling...' : 'Start Crawl'}
+        {loading ? "Crawling..." : "Start Crawl"}
       </button>
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
@@ -98,12 +96,19 @@ function App() {
         <ul className="list-disc list-inside space-y-1">
           {results.map((url, idx) => (
             <li key={idx}>
-              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 underline"
+              >
                 {url}
               </a>
             </li>
           ))}
-          {!results.length && !loading && <p className="text-gray-500">No files found yet.</p>}
+          {!results.length && !loading && (
+            <p className="text-gray-500">No files found yet.</p>
+          )}
         </ul>
       </div>
     </div>

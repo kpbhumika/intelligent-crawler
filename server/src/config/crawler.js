@@ -108,7 +108,12 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
   };
 
   // Helper: check if a URL response is the desired file type
-  async function checkIsDesiredFile(url, criteriaType, searchCriteria, searchFileExtension) {
+  async function checkIsDesiredFile(
+    url,
+    criteriaType,
+    searchCriteria,
+    searchFileExtension,
+  ) {
     const { fileName, fileExtension } = await getFileDetails(url);
     if (!fileName || !fileExtension) {
       console.log(`File details not found for URL: ${url}`);
@@ -127,7 +132,8 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
           isFileNameMatch = false;
         }
       } else {
-        isFileNameMatch = fileName.includes(searchCriteria) || url.includes(searchCriteria);
+        isFileNameMatch =
+          fileName.includes(searchCriteria) || url.includes(searchCriteria);
       }
     }
 
@@ -201,20 +207,24 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
         currentUrl,
         criteriaType,
         searchCriteria,
-        fileType
-
+        fileType,
       );
       if (isDesiredFile) {
         if (!foundFiles.includes(currentUrl)) {
           foundFiles.push(currentUrl);
-          console.log(`Found file: ${currentUrl} on after visiting ${visited.size} links`);
+          console.log(
+            `Found file: ${currentUrl} on after visiting ${visited.size} links`,
+          );
         }
         continue;
       }
 
       const page = await context.newPage();
       try {
-        await page.goto(currentUrl, { waitUntil: "domcontentloaded", timeout: 3000 });
+        await page.goto(currentUrl, {
+          waitUntil: "domcontentloaded",
+          timeout: 3000,
+        });
       } catch (err) {
         console.log("Error navigating to URL:", currentUrl, err);
         continue;
