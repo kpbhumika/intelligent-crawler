@@ -15,7 +15,7 @@ function App() {
     setResults([]);
     setError("");
     try {
-      const res = await axios.post(`http://localhost:9000/api/crawl`, {
+      const res = await axios.post(`/api/crawl`, {
         startUrl,
         criteriaType,
         searchCriteria: criteria,

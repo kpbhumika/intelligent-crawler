@@ -17,7 +17,7 @@ RUN yarn global add serve
 ENV DANGEROUSLY_DISABLE_HOST_CHECK = true
 
 # Expose the port the app runs on (adjust as needed)
-EXPOSE 3000
+EXPOSE 9000
 
 # Define the command to run the application
 CMD ["yarn", "serve"]

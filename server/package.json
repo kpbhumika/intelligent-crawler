@@ -6,6 +6,7 @@
   "scripts": {
     "test": "test",
     "start": "npx nodemon src/app.js",
+    "serve": "npx nodemon src/app.js",
     "format": "prettier --write .",
     "check": "prettier --check .",
     "migrate:latest": "knex --knexfile ./knexfile.cjs migrate:latest",

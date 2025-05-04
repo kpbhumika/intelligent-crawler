@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 
 // Import the web crawler route
 const crawlRoute = require("./routes/crawl");
+const frontendRouter = require("./routes/frontendRouter");
 
 const app = express();
 
@@ -34,6 +35,9 @@ app.use(bodyParser.json()); // Parse JSON bodies
 
 // Step 3: API Route for the Web Crawler
 app.use("/api", crawlRoute); // Mount the /crawl route from routes/crawl.js
+
+// Step 3.1: Serve static files from the React app
+app.use("/", frontendRouter); // Serve static files from the React app
 
 // Step 4: Start the server
 // const PORT = process.env.PORT || 9000;
