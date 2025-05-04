@@ -94,18 +94,20 @@ function App() {
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">📄 Found Files:</h2>
         <ul className="list-disc list-inside space-y-1">
-          {results ? (results.map((url, idx) => (
-            <li key={idx}>
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline"
-              >
-                {url}
-              </a>
-            </li>
-          ))): (
+          {results ? (
+            results.map((url, idx) => (
+              <li key={idx}>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                >
+                  {url}
+                </a>
+              </li>
+            ))
+          ) : (
             <p className="text-gray-500">No files found yet.</p>
           )}
         </ul>

@@ -87,14 +87,19 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
       return { fileName: null, fileExtension: null };
     };
 
+    const { fileName: fileNameFromUrl, fileExtension: fileExtensionFromUrl } =
+      getFileNameFromUrl(url);
+
+    if (fileNameFromUrl && fileExtensionFromUrl) {
+      return { fileName: fileNameFromUrl, fileExtension: fileExtensionFromUrl };
+    }
+
     const { fileName, fileExtension } =
       await retrieveFileDetailsFromHeadRequest(url);
 
     if (fileName && fileExtension) {
       return { fileName, fileExtension };
     }
-    const { fileName: fileNameFromUrl, fileExtension: fileExtensionFromUrl } =
-      getFileNameFromUrl(url);
 
     const {
       fileName: fileNameFromRange,
