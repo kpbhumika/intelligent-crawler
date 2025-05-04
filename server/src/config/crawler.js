@@ -2,6 +2,7 @@ const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 const { broadcastLog } = require("./socketBroadCaster.js");
+const { get } = require("http");
 
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
@@ -129,12 +130,22 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
     searchCriteria,
     searchFileExtension,
   ) {
+    let isFile = false;
+    let isDesiredFile = false;
+
+    const get_result = () => {
+      return {
+        isFile,
+        isDesiredFile,
+      };
+    }
+
     const { fileName, fileExtension } = await getFileDetails(url);
     if (!fileName || !fileExtension) {
       console.log(`File details not found for URL: ${url}`);
-      return false;
+      return get_result();
     }
-
+    isFile = true;
     let isFileNameMatch = true;
 
     if (searchCriteria) {
@@ -156,7 +167,8 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
       ? fileExtension && fileExtension.includes(searchFileExtension)
       : true;
 
-    return isFileNameMatch && isFileExtensionMatch;
+    isDesiredFile = isFileNameMatch && isFileExtensionMatch;
+    return get_result();
   }
 
   async function isDomainSameAsStartUrl(link) {
@@ -219,7 +231,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
       const currentUrl = queue.shift();
       broadcastLog(`Crawling - ${currentUrl}`);
 
-      const isDesiredFile = await checkIsDesiredFile(
+      const {isDesiredFile, isFile} = await checkIsDesiredFile(
         currentUrl,
         criteriaType,
         searchCriteria,
@@ -232,6 +244,12 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
             `Found file: ${currentUrl} on after visiting ${visited.size} links`,
           );
         }
+        continue;
+      }
+      if (isFile) {
+        console.log(
+          `Url is a file but not matching criteria: ${currentUrl}`,
+        );
         continue;
       }
 
