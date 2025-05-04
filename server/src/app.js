@@ -14,7 +14,8 @@ const allowedOrigins = [
   "http://localhost:3000", // React frontend
   "http://localhost:9000", // Backend
   "https://intelligent-crawler-3b670dc3d6b4.herokuapp.com", // Your deployed app (if any)
-  "https://intelligent-crawler.onrender.com/", // Your deployed app (if any)
+  "https://intelligent-crawler.onrender.com/", // Https for render.com
+  "http://intelligent-crawler.onrender.com/", // Http for render.com
 ];
 
 app.use(
