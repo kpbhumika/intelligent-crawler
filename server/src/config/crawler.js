@@ -6,7 +6,7 @@ const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 // Timeout for page navigation loaded from env variable
 const PAGE_LOAD_TIMEOUT = process.env.PAGE_LOAD_TIMEOUT
   ? parseInt(process.env.PAGE_LOAD_TIMEOUT)
-  : 3000; // Default to 3 seconds
+  : 6000; // Default to 3 seconds
 
 // Map common extensions to their MIME types
 const mimeTypes = {
