@@ -34,7 +34,7 @@ const LogDisplayer = () => {
 
   return (
     <div className="log-displayer mt-4">
-      <h2 className="mb-3">Log Output</h2>
+      <h2 className="mb-3">Real time Logs</h2>
       <div className="d-flex mb-3">
         <Button
           variant="primary"
