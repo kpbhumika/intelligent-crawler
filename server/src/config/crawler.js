@@ -13,7 +13,6 @@ const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
 const PAGE_LOAD_TIMEOUT = 60000;
 
-
 // Map common extensions to their MIME types
 const mimeTypes = {
   ".pdf": ["application/pdf"],
@@ -26,11 +25,29 @@ const mimeTypes = {
   ],
 };
 
-async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
+async function crawlSite({
+  startUrl,
+  criteriaType,
+  searchCriteria,
+  fileType,
+  username,
+  password,
+}) {
   const visited = new Set();
   const foundFiles = [];
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
+  const credentials =
+    username && password
+      ? {
+          httpCredentials: {
+            username,
+            password,
+          },
+        }
+      : null;
+  const context = await (credentials
+    ? browser.newContext(credentials)
+    : browser.newContext());
 
   const getFileDetails = async (url) => {
     const getFileNameFromUrl = (url) => {
@@ -138,7 +155,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
         isFile,
         isDesiredFile,
       };
-    }
+    };
 
     const { fileName, fileExtension } = await getFileDetails(url);
     if (!fileName || !fileExtension) {
@@ -231,7 +248,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
       const currentUrl = queue.shift();
       broadcastLog(`Crawling - ${currentUrl}`);
 
-      const {isDesiredFile, isFile} = await checkIsDesiredFile(
+      const { isDesiredFile, isFile } = await checkIsDesiredFile(
         currentUrl,
         criteriaType,
         searchCriteria,
@@ -247,9 +264,7 @@ async function crawlSite({ startUrl, criteriaType, searchCriteria, fileType }) {
         continue;
       }
       if (isFile) {
-        console.log(
-          `Url is a file but not matching criteria: ${currentUrl}`,
-        );
+        console.log(`Url is a file but not matching criteria: ${currentUrl}`);
         continue;
       }
 

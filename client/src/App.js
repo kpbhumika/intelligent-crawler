@@ -14,6 +14,8 @@ function App() {
   const [criteriaType, setCriteriaType] = useState("keyword");
   const [criteria, setCriteria] = useState("");
   const [fileType, setFileType] = useState(".pdf");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleCrawl = async () => {
     setLoading(true);
@@ -53,6 +55,10 @@ function App() {
             criteriaType={criteriaType}
             criteria={criteria}
             fileType={fileType}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
             handleCrawl={handleCrawl}
           />
 

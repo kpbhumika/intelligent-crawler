@@ -6,7 +6,14 @@ const crawlRouter = express.Router();
 crawlRouter.use("/crawl", router);
 
 router.post("/", async (req, res) => {
-  const { startUrl, criteriaType, searchCriteria, fileType } = req.body;
+  const {
+    startUrl,
+    criteriaType,
+    searchCriteria,
+    fileType,
+    username,
+    password,
+  } = req.body;
 
   try {
     const files = await crawlSite({
@@ -14,6 +21,8 @@ router.post("/", async (req, res) => {
       criteriaType,
       searchCriteria,
       fileType,
+      username,
+      password,
     });
     res.json({ success: true, files });
   } catch (error) {

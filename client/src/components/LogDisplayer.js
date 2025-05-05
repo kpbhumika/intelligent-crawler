@@ -35,15 +35,20 @@ const LogDisplayer = () => {
   return (
     <div className="log-displayer mt-4">
       <h2 className="mb-3">Log Output</h2>
-      <Button
-        variant="primary"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        aria-controls="log-collapse"
-        aria-expanded={!isCollapsed}
-        className="mb-3"
-      >
-        {isCollapsed ? "Show Logs" : "Hide Logs"}
-      </Button>
+      <div className="d-flex mb-3">
+        <Button
+          variant="primary"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          aria-controls="log-collapse"
+          aria-expanded={!isCollapsed}
+          className="me-2"
+        >
+          {isCollapsed ? "Show Logs" : "Hide Logs"}
+        </Button>
+        <Button variant="danger" onClick={() => setLogs([])}>
+          Clear Logs
+        </Button>
+      </div>
       <Collapse in={!isCollapsed}>
         <Card id="log-collapse" className="border">
           <Card.Body
