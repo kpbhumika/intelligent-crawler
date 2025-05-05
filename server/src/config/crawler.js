@@ -1,3 +1,7 @@
+// This file contains the implementation of a web crawler using Playwright.
+// The crawler navigates through web pages starting from a given URL, identifies files based on specified criteria,
+// and collects links while adhering to domain restrictions and a maximum crawl limit.
+
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
@@ -6,11 +10,7 @@ const { get } = require("http");
 
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
 
-// Timeout for page navigation loaded from env variable
-// const PAGE_LOAD_TIMEOUT = process.env.PAGE_LOAD_TIMEOUT
-//   ? parseInt(process.env.PAGE_LOAD_TIMEOUT)
-//   : 60000;
-
+// Timeout for page navigation
 const PAGE_LOAD_TIMEOUT = 60000;
 
 // Map common extensions to their MIME types
@@ -33,9 +33,11 @@ async function crawlSite({
   username,
   password,
 }) {
-  const visited = new Set();
-  const foundFiles = [];
-  const browser = await chromium.launch({ headless: true });
+  const visited = new Set(); // Tracks visited URLs
+  const foundFiles = []; // Stores URLs of files matching the criteria
+  const browser = await chromium.launch({ headless: true }); // Launch a headless browser
+
+  // Set up browser context with optional HTTP credentials
   const credentials =
     username && password
       ? {
@@ -49,6 +51,7 @@ async function crawlSite({
     ? browser.newContext(credentials)
     : browser.newContext());
 
+  // Helper function to extract file details from a URL or HTTP headers
   const getFileDetails = async (url) => {
     const getFileNameFromUrl = (url) => {
       const urlObj = new URL(url);
@@ -57,6 +60,7 @@ async function crawlSite({
       const fileExtension = path.extname(fileName).toLowerCase();
       return { fileName, fileExtension };
     };
+
     const getFileDetailsFromHeaders = (headers) => {
       const contentType = headers["content-type"] || "";
       const contentDisposition = headers["content-disposition"] || "";
@@ -86,6 +90,7 @@ async function crawlSite({
       return { fileName, fileExtension };
     };
 
+    // Attempt to retrieve file details using HEAD and Range requests
     const retrieveFileDetailsFromHeadRequest = async (url) => {
       try {
         const response = await context.request.fetch(url, {
@@ -165,6 +170,7 @@ async function crawlSite({
     isFile = true;
     let isFileNameMatch = true;
 
+    // Check if the file name matches the search criteria
     if (searchCriteria) {
       if (criteriaType === "regex") {
         try {
@@ -180,6 +186,7 @@ async function crawlSite({
       }
     }
 
+    // Check if the file extension matches the desired type
     const isFileExtensionMatch = searchFileExtension
       ? fileExtension && fileExtension.includes(searchFileExtension)
       : true;
@@ -188,57 +195,16 @@ async function crawlSite({
     return get_result();
   }
 
+  // Helper: check if a link belongs to the same domain as the start URL
   async function isDomainSameAsStartUrl(link) {
     const startUrlObj = new URL(startUrl);
     const linkUrlObj = new URL(link);
     return startUrlObj.hostname === linkUrlObj.hostname;
   }
 
-  // async function visitPage(url) {
-  //   if (visited.has(url)) return;
-  //   visited.add(url);
-
-  //   const page = await context.newPage();
-  //   await page.goto(url, { waitUntil: 'domcontentloaded' });
-
-  //   const links = await page.$$eval('a', anchors =>
-  //     anchors.map(a => a.href).filter(href => !!href)
-  //   );
-  //   console.log(`Found ${links.length} links on ${url}`);
-
-  //   for (const link of links) {
-  //     // Only consider links containing the criteria
-  //     if (!link.includes(searchCriteria)) continue;
-
-  //     // If URL ends with the extension, we can skip checking headers
-  //     const obviousFile = link.toLowerCase().endsWith(fileType);
-  //     let isFile = obviousFile;
-
-  //     if (!obviousFile) {
-  //       // Check headers to see if this link is actually a file
-  //       isFile = await isDesiredFile(link);
-  //     }
-
-  //     if (isFile) {
-  //       if (!foundFiles.includes(link)) {
-  //         foundFiles.push(link);
-  //         console.log(`Found file: ${link}`);
-  //       }
-  //       continue; // Don't crawl further
-  //     }
-
-  //     // Crawl further if same domain
-  //     if (isDomainSameAsStartUrl(link) && !visited.has(link)) {
-  //       await visitPage(link);
-  //     }
-  //   }
-
-  //   await page.close();
-  // }
-
+  // Perform breadth-first traversal of pages starting from the start URL
   async function visitPagesBreadthFirst(startUrl) {
     const queue = [startUrl];
-    // visited.add(startUrl);
 
     while (queue.length > 0) {
       if (visited.size >= MAX_LINKS_TO_CRAWL) {
@@ -279,11 +245,13 @@ async function crawlSite({
         continue;
       }
 
+      // Extract all links from the current page
       const links = await page.$$eval("a", (anchors) =>
         anchors.map((a) => a.href).filter((href) => !!href),
       );
       console.log(`Found ${links.length} links on ${currentUrl}`);
 
+      // Add unvisited links from the same domain to the queue
       for (const link of links) {
         if ((await isDomainSameAsStartUrl(link)) && !visited.has(link)) {
           visited.add(link);

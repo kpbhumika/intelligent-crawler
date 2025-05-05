@@ -6000,6 +6000,7 @@
     "react-dom" "^18.3.1"
     "react-router-dom" "^6.27.0"
     "react-scripts" "5.0.1"
+    "socket.io-client" "^4.8.1"
     "web-vitals" "^2.1.4"
 
 "intelligent-crawler-server@file:/Users/bhumikakp/BU_Courses/Advanced_Programming_Techniques/intelligent-crawler/server":
@@ -6021,6 +6022,7 @@
     "passport-google-oauth20" "^2.0.0"
     "pg" "^8.13.0"
     "playwright" "^1.51.1"
+    "socket.io" "^4.8.1"
 
 "internal-slot@^1.0.7":
   "integrity" "sha512-NGnrKwXzSms2qUUih/ILZ5JBqNTSa1+ZmP6flaIp6KmSElgE9qdndzS3cqjrDovwFdmwsGsLdeFgB6suw+1e9g=="

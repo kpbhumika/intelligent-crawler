@@ -1,26 +1,30 @@
+// This file defines the CrawlForm component, which provides a user interface for configuring and starting a web crawling process.
+// It includes fields for specifying the start URL, search criteria, file type, and optional authentication credentials.
+
 import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 
 const CrawlForm = ({
-  loading,
-  setStartUrl,
-  setCriteriaType,
-  setCriteria,
-  setFileType,
-  startUrl,
-  criteriaType,
-  criteria,
-  fileType,
-  username,
-  setUsername,
-  password,
-  setPassword,
-  handleCrawl,
+  loading, // Indicates whether the crawling process is currently in progress
+  setStartUrl, // Function to update the start URL
+  setCriteriaType, // Function to update the criteria type (e.g., keyword or regex)
+  setCriteria, // Function to update the search criteria
+  setFileType, // Function to update the file type to search for
+  startUrl, // Current value of the start URL
+  criteriaType, // Current value of the criteria type
+  criteria, // Current value of the search criteria
+  fileType, // Current value of the file type
+  username, // Current value of the username for authentication
+  setUsername, // Function to update the username
+  password, // Current value of the password for authentication
+  setPassword, // Function to update the password
+  handleCrawl, // Function to initiate the crawling process
 }) => {
-  const [authEnabled, setAuthEnabled] = useState(false);
+  const [authEnabled, setAuthEnabled] = useState(false); // State to toggle authentication fields
 
   return (
     <Form>
+      {/* Input field for the start URL */}
       <Form.Group className="mb-3" controlId="formStartUrl">
         <Form.Label>Start URL</Form.Label>
         <Form.Control
@@ -31,6 +35,7 @@ const CrawlForm = ({
         />
       </Form.Group>
 
+      {/* Dropdown to select the criteria type */}
       <Form.Group className="mb-3" controlId="formCriteriaType">
         <Form.Label>Criteria Type</Form.Label>
         <Form.Select
@@ -42,6 +47,7 @@ const CrawlForm = ({
         </Form.Select>
       </Form.Group>
 
+      {/* Input field for the search criteria */}
       <Form.Group className="mb-3" controlId="formCriteria">
         <Form.Label>Search Criteria</Form.Label>
         <Form.Control
@@ -52,6 +58,7 @@ const CrawlForm = ({
         />
       </Form.Group>
 
+      {/* Dropdown to select the file type */}
       <Form.Group className="mb-3" controlId="formFileType">
         <Form.Label>File Type</Form.Label>
         <Form.Select
@@ -64,6 +71,7 @@ const CrawlForm = ({
         </Form.Select>
       </Form.Group>
 
+      {/* Checkbox to enable or disable authentication */}
       <Form.Group className="mb-3" controlId="formAuthEnabled">
         <Form.Check
           type="checkbox"
@@ -73,6 +81,7 @@ const CrawlForm = ({
         />
       </Form.Group>
 
+      {/* Authentication fields (username and password) displayed only if authEnabled is true */}
       {authEnabled && (
         <>
           <Form.Group className="mb-3" controlId="formUsername">
@@ -97,6 +106,7 @@ const CrawlForm = ({
         </>
       )}
 
+      {/* Button to start the crawling process, with a spinner displayed when loading */}
       <Button
         variant="primary"
         onClick={handleCrawl}

@@ -1,10 +1,13 @@
+// This component connects to a WebSocket server to display real-time logs.
+// It provides functionality to toggle log visibility and clear logs.
+
 import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { Button, Collapse, Card } from "react-bootstrap";
 
 const LogDisplayer = () => {
-  const [logs, setLogs] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [logs, setLogs] = useState([]); // State to store log messages
+  const [isCollapsed, setIsCollapsed] = useState(false); // State to toggle log visibility
 
   useEffect(() => {
     // Step 1: Connect to the socket server. Same URL as client
@@ -36,6 +39,7 @@ const LogDisplayer = () => {
     <div className="log-displayer mt-4">
       <h2 className="mb-3">Real time Logs</h2>
       <div className="d-flex mb-3">
+        {/* Button to toggle log visibility */}
         <Button
           variant="primary"
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -45,10 +49,12 @@ const LogDisplayer = () => {
         >
           {isCollapsed ? "Show Logs" : "Hide Logs"}
         </Button>
+        {/* Button to clear all logs */}
         <Button variant="danger" onClick={() => setLogs([])}>
           Clear Logs
         </Button>
       </div>
+      {/* Collapsible section to display logs */}
       <Collapse in={!isCollapsed}>
         <Card id="log-collapse" className="border">
           <Card.Body
@@ -59,6 +65,7 @@ const LogDisplayer = () => {
             }}
           >
             {logs.length > 0 ? (
+              // Render each log message
               logs.map((log, index) => (
                 <div
                   key={index}
@@ -72,6 +79,7 @@ const LogDisplayer = () => {
                 </div>
               ))
             ) : (
+              // Message when no logs are available
               <div className="text-muted">No logs available</div>
             )}
           </Card.Body>
