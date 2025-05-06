@@ -58,7 +58,8 @@ async function crawlSite({
       const pathname = urlObj.pathname;
       const fileName = path.basename(pathname);
       const fileExtension = path.extname(fileName).toLowerCase();
-      return { fileName, fileExtension };
+      // if the file extension is gz, we treat it as a fastq file
+      return { fileName, fileExtension: fileExtension === ".gz" ? ".fastq" : fileExtension };
     };
 
     const getFileDetailsFromHeaders = (headers) => {
