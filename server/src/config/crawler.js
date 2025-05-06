@@ -9,9 +9,10 @@ const { broadcastLog } = require("./socketBroadCaster.js");
 const { get } = require("http");
 
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
+const MAX_SECONDS_TO_CRAWL = 180; // Maximum time to crawl in seconds
 
 // Timeout for page navigation
-const PAGE_LOAD_TIMEOUT = 60000;
+const PAGE_LOAD_TIMEOUT = 10*1000;
 
 // Map common extensions to their MIME types
 const mimeTypes = {
@@ -51,6 +52,9 @@ async function crawlSite({
     ? browser.newContext(credentials)
     : browser.newContext());
 
+  const startTime = Date.now();
+  const timeoutMilliseconds = MAX_SECONDS_TO_CRAWL * 1000;
+
   // Helper function to extract file details from a URL or HTTP headers
   const getFileDetails = async (url) => {
     const getFileNameFromUrl = (url) => {
@@ -59,7 +63,10 @@ async function crawlSite({
       const fileName = path.basename(pathname);
       const fileExtension = path.extname(fileName).toLowerCase();
       // if the file extension is gz, we treat it as a fastq file
-      return { fileName, fileExtension: fileExtension === ".gz" ? ".fastq" : fileExtension };
+      return {
+        fileName,
+        fileExtension: fileExtension === ".gz" ? ".fastq" : fileExtension,
+      };
     };
 
     const getFileDetailsFromHeaders = (headers) => {
@@ -208,18 +215,33 @@ async function crawlSite({
     const queue = [startUrl];
 
     while (queue.length > 0) {
+      if (Date.now() - startTime >= timeoutMilliseconds) {
+        console.log("Crawling timed out.");
+        broadcastLog(
+          `Warning: Crawling timed out after ${MAX_SECONDS_TO_CRAWL} seconds.`,
+        );
+        return;
+      }
       if (visited.size >= MAX_LINKS_TO_CRAWL) {
         console.log("Reached maximum number of links to crawl.");
         break;
       }
       const currentUrl = queue.shift();
-      broadcastLog(`Crawling - ${currentUrl}`);
 
       const { isDesiredFile, isFile } = await checkIsDesiredFile(
         currentUrl,
         criteriaType,
         searchCriteria,
         fileType,
+      );
+      // Broadcast a message. Include whether the URL is a file or not and whether it matches the criteria.
+      const isFileMessage = isFile ? "is a file" : "is not a file";
+      const isDesiredFileMessage = isDesiredFile
+        ? "and matches the criteria"
+        : "but does not match the criteria";
+
+      broadcastLog(
+        `Info: URL ${isFileMessage} ${isFile ? isDesiredFileMessage : ""} - ${currentUrl}`,
       );
       if (isDesiredFile) {
         if (!foundFiles.includes(currentUrl)) {
@@ -243,6 +265,9 @@ async function crawlSite({
         });
       } catch (err) {
         console.log("Error navigating to URL:", currentUrl, err);
+        broadcastLog(
+          `Error: Failed to navigate to ${currentUrl}. Skipping this URL.`,
+        );
         continue;
       }
 
@@ -265,6 +290,11 @@ async function crawlSite({
   await visitPagesBreadthFirst(startUrl);
   await browser.close();
   console.log(`Crawling completed. ${visited.size} Visited links:`, visited);
+  broadcastLog(
+    `Info: Crawling completed. ${visited.size} links crawled in ${Math.floor(
+      (Date.now() - startTime) / 1000,
+    )} seconds.`,
+  );
   return foundFiles;
 }
 
