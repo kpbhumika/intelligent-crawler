@@ -9,7 +9,7 @@ const { broadcastLog } = require("./socketBroadCaster.js");
 const { get } = require("http");
 
 const MAX_LINKS_TO_CRAWL = 200; // Limit the number of links to crawl
-const MAX_SECONDS_TO_CRAWL = 180; // Maximum time to crawl in seconds
+const MAX_SECONDS_TO_CRAWL = 4*60; // Maximum time to crawl in seconds
 
 // Timeout for page navigation
 const PAGE_LOAD_TIMEOUT = 10*1000;
@@ -213,6 +213,7 @@ async function crawlSite({
   // Perform breadth-first traversal of pages starting from the start URL
   async function visitPagesBreadthFirst(startUrl) {
     const queue = [startUrl];
+    const page = await context.newPage();
 
     while (queue.length > 0) {
       if (Date.now() - startTime >= timeoutMilliseconds) {
@@ -235,7 +236,7 @@ async function crawlSite({
         fileType,
       );
       // Broadcast a message. Include whether the URL is a file or not and whether it matches the criteria.
-      const isFileMessage = isFile ? "is a file" : "is not a file";
+      const isFileMessage = isFile ? "is a file" : "is not a file. So checking the page whether it has URLs";
       const isDesiredFileMessage = isDesiredFile
         ? "and matches the criteria"
         : "but does not match the criteria";
@@ -257,7 +258,6 @@ async function crawlSite({
         continue;
       }
 
-      const page = await context.newPage();
       try {
         await page.goto(currentUrl, {
           waitUntil: "domcontentloaded",
