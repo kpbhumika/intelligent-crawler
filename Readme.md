@@ -1,113 +1,90 @@
-# Intelligent crawler
+# Intelligent Crawler
 
-Intelligent crawler is a full-stack flashcard application built using the **PERN** stack (PostgreSQL, Express, React, Node.js). This README provides instructions on how to set up and run the app locally.
+The Intelligent Crawler is a full-stack web application built using **React** for the frontend and **Node.js** with **Playwright** for the backend. It enables users to efficiently search for and download specific file types (like `.PDF`, `.CSV`, `.FASTQ`) from websites based on custom criteria. It features smart crawling with link traversal, regex/keyword matching, and optional authentication — all within a modern web UI.
 
-## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Setup Guide](#setup-guide)
-  - [1. Clone the Repository](#1-clone-the-repository)
-  - [2. Server Setup](#2-server-setup)
-  - [3. Client Setup](#3-client-setup)
-- [Running the Application](#running-the-application)
-- [Tutorial Reference](#tutorial-reference)
-- [Technologies Used](#technologies-used)
-- [Repository Links](#repository-links)
+**GitHub Repository**: [https://github.com/kpbhumika/intelligent-crawler](https://github.com/kpbhumika/intelligent-crawler)
+**Live Demo**: [https://intelligent-crawler.onrender.com](https://intelligent-crawler.onrender.com)
 
-## Prerequisites
+## Features
 
-Make sure you have the following software installed:
-- **Node.js** (v14 or above)
-- **PostgreSQL**
+* **Targeted Web Crawling**: Crawl websites to discover downloadable files based on user-defined search logic.
+* **Flexible Search Criteria**: Choose between keyword or regex-based filtering to match URLs or file names.
+* **File Format Support**: Retrieve specific types of files (.PDF, .CSV, .FASTQ).
+* **Authentication Handling**: Supports optional login credentials when required to access restricted pages.
+* **Built with Playwright**: Uses headless browsing for realistic and accurate web scraping.
+* **Dockerized Deployment**: Easily deploy using Docker for consistent setup across environments.
 
-## Setup Guide
+## Tech Stack
 
-### 1. Clone the Repository
+* **Frontend**: React
+* **Backend**: Node.js with Playwright
+* **Containerization**: Docker
 
-Start by cloning the repository to your local machine:
+## How to Use
 
-```bash
-git clone https://github.com/kpbhumika/intelligent-crawler.git
-cd intelligent-crawler
-```
+1. **Start URL**
+   Enter the website URL where crawling should begin.
+   *Example*: `https://people.sc.fsu.edu/~jburkardt/data/csv/`
 
-### 2. Server Setup
+2. **Criteria Type**
+   Choose between:
 
-Navigate to the server folder and install dependencies:
+   * `Keyword`: Matches basic substrings in URLs or file names.
+   * `Regex`: Allows advanced matching using regular expressions.
+     *Example for regex*: `.*tiny.*`
 
-```bash
-cd server
-npm install
-```
+3. **Search Criteria**
+   Provide the keyword or regex pattern used to filter links and file names.
+   *Example keyword*: `example`
+   *Example regex*: `.*tiny.*`
 
-Create a `.env` file in the server directory to store environment variables. Include the following variables:
+4. **File Type**
+   Select from supported file types:
 
+   * `.PDF`
+   * `.CSV`
+   * `.FASTQ`
 
-### 3. Client Setup
+5. **Enable Authentication** (optional)
+   Toggle the checkbox if the website requires login. Provide:
 
-Navigate to the client folder and install dependencies:
+   * **Username**
+   * **Password**
 
-```bash
-cd ../client
-npm install
-```
+6. **Start Crawl**
+   Click the **"Start Crawl"** button. The crawler will begin scanning the site and return a list of files that match the criteria.
 
-## Running the Application
+## Example Inputs
 
-Once setup is complete, you can start both the server and client applications.
+### Example 1 – Keyword Match
 
-### Start the Server
+* **Start URL**: `https://people.sc.fsu.edu/~jburkardt/data/csv/`
+* **Criteria Type**: Keyword
+* **Search Criteria**: `example`
+* **File Type**: `.CSV`
 
-1. In a terminal, navigate to the `server` folder:
+### Example 2 – Regex Match
 
-    ```bash
-    cd server
-    ```
+* **Start URL**: `https://ftp.mi.fu-berlin.de/pub/andreott/knime_ngs/fastq/`
+* **Criteria Type**: Regex
+* **Search Criteria**: `.*tiny.*`
+* **File Type**: `.FASTQ`
 
-2. Start the server:
+## How to Run
 
-    ```bash
-    npm start
-    ```
+1. **Clone the Repository**
 
-   The server will run on `http://localhost:9000`.
+   ```sh
+   git clone https://github.com/kpbhumika/intelligent-crawler.git
+   cd intelligent-crawler
+   ```
 
-### Start the Client
+2. **Build and Run with Docker**
 
-1. In a separate terminal window, navigate to the `client` folder:
+   ```sh
+   docker build -t intelligent-crawler .
+   docker run -p 3000:3000 intelligent-crawler
+   ```
 
-    ```bash
-    cd client
-    ```
-
-2. Start the client:
-
-    ```bash
-    npm start
-    ```
-
-   The client will run on `http://localhost:3000`.
-
-## Tutorial Reference
-
-This application was set up following the tutorial [“Get Started with the PERN Stack”](https://medium.com/@ritapalves/get-started-with-the-pern-stack-an-introduction-and-implementation-guide-e33c55d09994) by Rita Palves. The tutorial provides a comprehensive guide to building a full-stack application with the PERN stack and was used as a reference to structure both the backend and frontend of Intelligent crawler.
-
-## Technologies Used
-
-- **Backend**: Node.js, Express, PostgreSQL
-- **Frontend**: React, JavaScript
-- **Others**: CORS, Dotenv
-
-## Heroku Deploy
-
-Biuld frontend changes: 
-1. go to client folder give command
-   ```yarn build```
-2. commit the changes local main.
-3. Login to heroku and do
-   ```git push heroku main```
-  
-
-## Repository Links
-
-- **[GitHub Repository](https://github.com/kpbhumika/intelligent-crawler)**
-- **[Issues](https://github.com/kpbhumika/intelligent-crawler/issues)**
+3. **Access the App**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
